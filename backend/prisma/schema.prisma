@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Statements {
+  id         Int      @id @default(autoincrement())
+  Profit   String   
+  TotalRevenue   String
+  Totalexpense  String
+  lastName   String
+  monthlyExpenses      MonthlyExpense[]
+  dailyExpenses        DailyExpenses[]
+  expenses_by_category  Expenses_by_category[]
+}
+
+model MonthlyExpense {
+
+    id         Int      @id @default(autoincrement())
+    statement_id  Int
+    statements     Statements      @relation(fields: [statement_id], references: [id])
+    month   String
+    revenue  String
+    expenses  String
+    operationalExpenses  String
+    nonOperationalExpenses  String
+}
+
+model Expenses_by_category {
+  id         Int      @id @default(autoincrement())
+  statement_id  Int
+  statements     Statements      @relation(fields: [statement_id], references: [id])
+  Salaries String
+  Supplies String
+  Services String
+
+}
+
+model DailyExpenses{
+   id         Int      @id @default(autoincrement())
+  statement_id  Int
+  statements     Statements      @relation(fields: [statement_id], references: [id])
+  Date String
+  Revenue String
+  expenses String
+
+}
+
+model Product{
+  id         Int      @id @default(autoincrement())
+  Price String
+  Expense String
+  relation_product_buyer Relation_product_buyer[]
+}
+
+model Buyer{
+  id         Int      @id @default(autoincrement())
+  Amount String
+  Buyer String
+  relation_product_buyer Relation_product_buyer[]
+}
+
+model Relation_product_buyer{
+  id         Int      @id @default(autoincrement())
+  product_id  Int
+  products     Product      @relation(fields: [product_id], references: [id])
+  buyer_id  Int
+  buyers     Buyer      @relation(fields: [buyer_id], references: [id])
+}
+
+
