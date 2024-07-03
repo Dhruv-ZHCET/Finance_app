@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,72 +5,65 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
 }
 
 model Statements {
-  id         Int      @id @default(autoincrement())
-  Profit   String   
-  TotalRevenue   String
-  Totalexpense  String
-  lastName   String
-  monthlyExpenses      MonthlyExpense[]
+  id                   Int                    @id @default(autoincrement())
+  Profit               String
+  TotalRevenue         String
+  Totalexpense         String
   dailyExpenses        DailyExpenses[]
-  expenses_by_category  Expenses_by_category[]
+  expenses_by_category Expenses_by_category[]
+  monthlyExpenses      MonthlyExpense[]
 }
 
 model MonthlyExpense {
-
-    id         Int      @id @default(autoincrement())
-    statement_id  Int
-    statements     Statements      @relation(fields: [statement_id], references: [id])
-    month   String
-    revenue  String
-    expenses  String
-    operationalExpenses  String
-    nonOperationalExpenses  String
+  id                     Int        @id @default(autoincrement())
+  statement_id           Int
+  month                  String
+  revenue                String
+  expenses               String
+  operationalExpenses    String
+  nonOperationalExpenses String
+  statements             Statements @relation(fields: [statement_id], references: [id])
 }
 
 model Expenses_by_category {
-  id         Int      @id @default(autoincrement())
-  statement_id  Int
-  statements     Statements      @relation(fields: [statement_id], references: [id])
-  Salaries String
-  Supplies String
-  Services String
-
+  id           Int        @id @default(autoincrement())
+  statement_id Int
+  Salaries     String
+  Supplies     String
+  Services     String
+  statements   Statements @relation(fields: [statement_id], references: [id])
 }
 
-model DailyExpenses{
-   id         Int      @id @default(autoincrement())
-  statement_id  Int
-  statements     Statements      @relation(fields: [statement_id], references: [id])
-  Date String
-  Revenue String
-  expenses String
-
+model DailyExpenses {
+  id           Int        @id @default(autoincrement())
+  statement_id Int
+  Date         String
+  Revenue      String
+  expenses     String
+  statements   Statements @relation(fields: [statement_id], references: [id])
 }
 
-model Product{
-  id         Int      @id @default(autoincrement())
-  Price String
-  Expense String
+model Product {
+  id                     Int                      @id @default(autoincrement())
+  Price                  String
+  Expense                String
   relation_product_buyer Relation_product_buyer[]
 }
 
-model Buyer{
-  id         Int      @id @default(autoincrement())
-  Amount String
-  Buyer String
+model Buyer {
+  id                     Int                      @id @default(autoincrement())
+  Amount                 String
+  Buyer                  String
   relation_product_buyer Relation_product_buyer[]
 }
 
-model Relation_product_buyer{
-  id         Int      @id @default(autoincrement())
-  product_id  Int
-  products     Product      @relation(fields: [product_id], references: [id])
-  buyer_id  Int
-  buyers     Buyer      @relation(fields: [buyer_id], references: [id])
+model Relation_product_buyer {
+  id         Int     @id @default(autoincrement())
+  product_id Int
+  buyer_id   Int
+  buyers     Buyer   @relation(fields: [buyer_id], references: [id])
+  products   Product @relation(fields: [product_id], references: [id])
 }
-
-
