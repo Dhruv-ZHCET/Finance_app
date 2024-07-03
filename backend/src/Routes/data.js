@@ -1,4 +1,4 @@
-export const kpis = [
+const kpis = [
   {
     _id: "63bf8239f03239e002001612",
     totalProfit: "$212000.00",
@@ -465,7 +465,7 @@ export const kpis = [
   },
 ];
 
-export const products = [
+const products = [
   {
     _id: "63bf7ac9f03239e002001600",
     price: "$43.41",
@@ -1606,7 +1606,7 @@ export const products = [
   },
 ];
 
-export const transactions = [
+const transactions = [
   {
     _id: "63bf7ccef03239e002001606",
     amount: "$154.37",
@@ -4016,3 +4016,9 @@ export const transactions = [
     productIds: ["63bf7ac9f032394f5f002437"],
   },
 ];
+module.exports = {
+  kpis,
+  transactions,
+  products
+
+}

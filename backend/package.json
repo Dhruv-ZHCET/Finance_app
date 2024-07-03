@@ -6,7 +6,8 @@
   },
   "dependencies": {
     "@prisma/client": "^5.16.1",
-    "hono": "^4.4.10",
+    "axios": "^1.7.2",
+    "hono": "^4.4.11",
     "prisma": "^5.16.1"
   },
   "devDependencies": {
