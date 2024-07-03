@@ -21,10 +21,10 @@ model MonthlyExpense {
   id                     Int        @id @default(autoincrement())
   statement_id           Int
   month                  String
-  revenue                String
   expenses               String
   operationalExpenses    String
   nonOperationalExpenses String
+  revenue                String
   statements             Statements @relation(fields: [statement_id], references: [id])
 }
 
@@ -47,23 +47,24 @@ model DailyExpenses {
 }
 
 model Product {
-  id                     Int                      @id @default(autoincrement())
-  Price                  String
-  Expense                String
-  relation_product_buyer Relation_product_buyer[]
+  id           String               @id
+  Price        String
+  Expense      String
+  transactions ProductTransaction[]
 }
 
-model Buyer {
-  id                     Int                      @id @default(autoincrement())
-  Amount                 String
-  Buyer                  String
-  relation_product_buyer Relation_product_buyer[]
+model Transaction {
+  id       String               @id
+  Amount   String
+  Buyer    String
+  Products ProductTransaction[]
 }
 
-model Relation_product_buyer {
-  id         Int     @id @default(autoincrement())
-  product_id Int
-  buyer_id   Int
-  buyers     Buyer   @relation(fields: [buyer_id], references: [id])
-  products   Product @relation(fields: [product_id], references: [id])
+model ProductTransaction {
+  Pr_id       String
+  Tr_id       String
+  product     Product     @relation(fields: [Pr_id], references: [id])
+  transaction Transaction @relation(fields: [Tr_id], references: [id])
+
+  @@id([Tr_id, Pr_id])
 }
