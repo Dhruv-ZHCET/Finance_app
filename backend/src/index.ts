@@ -1,14 +1,18 @@
 import { Hono } from 'hono'
 import { PrismaClient } from '@prisma/client/edge';
 import { withAccelerate } from '@prisma/extension-accelerate'
+import { env } from 'hono/adapter'
 
 
 const app = new Hono()
 
 app.get('/kpi', async (c) => {
 
+  const { DATABASE_URL } = env<{ DATABASE_URL: string }>(c)
+
+
   const prisma = new PrismaClient({
-    datasourceUrl: "prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiZDA0MzFiZDMtOGU2YS00NGYxLWEwZjEtMDFjMjEzNmM4NzcwIiwidGVuYW50X2lkIjoiMDBiZTdlOTkxN2JmYzgyMTY4Njg2YWYxMDQ0YWM0NDQ0YTU0ODY5MzcyMTk5MGUzZWQwYmM2ZDVhYWYwNjQ3YiIsImludGVybmFsX3NlY3JldCI6ImUxM2IxNjcwLTYxZjItNGM4YS04NzllLTJmMzFjMDQ2MjA1ZSJ9.VY1r_bn12ZLip5WuScDpOV1GqDQ3zErjLsdumAiBTI8",
+    datasourceUrl: DATABASE_URL,
 }).$extends(withAccelerate())
  const res = await prisma.statements.findMany({
   include:{
@@ -25,8 +29,11 @@ app.get('/kpi', async (c) => {
 
 app.get('/products', async (c) => {
 
+  const { DATABASE_URL } = env<{ DATABASE_URL: string }>(c)
+
+
   const prisma = new PrismaClient({
-    datasourceUrl: "prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiZDA0MzFiZDMtOGU2YS00NGYxLWEwZjEtMDFjMjEzNmM4NzcwIiwidGVuYW50X2lkIjoiMDBiZTdlOTkxN2JmYzgyMTY4Njg2YWYxMDQ0YWM0NDQ0YTU0ODY5MzcyMTk5MGUzZWQwYmM2ZDVhYWYwNjQ3YiIsImludGVybmFsX3NlY3JldCI6ImUxM2IxNjcwLTYxZjItNGM4YS04NzllLTJmMzFjMDQ2MjA1ZSJ9.VY1r_bn12ZLip5WuScDpOV1GqDQ3zErjLsdumAiBTI8",
+    datasourceUrl: DATABASE_URL,
 }).$extends(withAccelerate())
  const res = await prisma.product.findMany({
   include:{
@@ -39,8 +46,11 @@ app.get('/products', async (c) => {
 })
 app.get('/transactions', async (c) => {
 
+  const { DATABASE_URL } = env<{ DATABASE_URL: string }>(c)
+
+
   const prisma = new PrismaClient({
-    datasourceUrl: "prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiZDA0MzFiZDMtOGU2YS00NGYxLWEwZjEtMDFjMjEzNmM4NzcwIiwidGVuYW50X2lkIjoiMDBiZTdlOTkxN2JmYzgyMTY4Njg2YWYxMDQ0YWM0NDQ0YTU0ODY5MzcyMTk5MGUzZWQwYmM2ZDVhYWYwNjQ3YiIsImludGVybmFsX3NlY3JldCI6ImUxM2IxNjcwLTYxZjItNGM4YS04NzllLTJmMzFjMDQ2MjA1ZSJ9.VY1r_bn12ZLip5WuScDpOV1GqDQ3zErjLsdumAiBTI8",
+    datasourceUrl: DATABASE_URL,
 }).$extends(withAccelerate())
  const res = await prisma.transaction.findMany({
   include:{
