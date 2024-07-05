@@ -1,32 +1,28 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useMemo } from "react";
 import { themeSettings } from "./theme";
-import { ThemeProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
-// import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Navbar from "./scenes/navbar";
-
-
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {Navbar} from './components/navbar'
+import {Dashboard} from "./pages/dashboard"; 
+import { Predictions } from "./pages/predictions";
 function App() {
   const theme = useMemo(() => createTheme(themeSettings), []);
 
   return (
     <div className="app">
-        {/* <BrowserRouter> */}
-        {/* <Routes> */}
-        {/* <Route path="/" element={}> </Route>   */}
-        {/* <Route path="/predictions" element={}> </Route>  */}
-        <ThemeProvider theme={theme}>
-        <CssBaseline>
-          <Navbar></Navbar>
-        </CssBaseline>
-        </ThemeProvider>
-        
-        {/* </Routes>
-      </BrowserRouter> */}
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <BrowserRouter>
+          <Navbar /> 
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/predictions" element = {<Predictions/>}/>
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,5 +1,5 @@
 //eslint-disable-next-line
-import { Palette, PaletteColor } from "@mui/material/styles/createPalette";
+import { Palette, PaletteColor, TypeBackground } from "@mui/material/styles/createPalette";
 
 declare module "@mui/material/styles/createPalette" {
   interface PaletteColor {
@@ -8,5 +8,25 @@ declare module "@mui/material/styles/createPalette" {
 
   interface Palette {
     tertiary: PaletteColor;
+    // grey: PaletteColor;
+  }
+
+  interface TypeBackground {
+    light: string;
+  }
+}
+
+declare module "@mui/material/styles" {
+  interface Theme {
+    status: {
+      danger: string;
+    };
+  }
+
+  // allow configuration using `createTheme`
+  interface ThemeOptions {
+    status?: {
+      danger?: string;
+    };
   }
 }
