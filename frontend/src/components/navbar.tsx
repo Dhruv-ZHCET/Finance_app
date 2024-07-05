@@ -2,6 +2,7 @@ import { Button, Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import PixIcon from "@mui/icons-material/Pix";
 import { useNavigate } from "react-router-dom";
+import { themeSettings } from "../theme";
 export const Navbar = ()=>{
   const { palette } = useTheme();
 
