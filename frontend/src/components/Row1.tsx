@@ -1,6 +1,6 @@
 import axios from "axios";
 import { DashboardCard } from "./DashboardCard";
-import { ResponsiveContainer, CartesianGrid, AreaChart, XAxis, YAxis, Tooltip, Area } from "recharts";
+import { ResponsiveContainer, CartesianGrid, AreaChart, XAxis, YAxis, Tooltip, Area, LineChart, Line, Legend, BarChart, Bar, Rectangle } from "recharts";
 import { useEffect, useState } from "react";
 import { useTheme } from "@emotion/react";
 import { themeSettings } from "../theme";
@@ -19,7 +19,7 @@ async function getKpi(){
 
 export const Row1 = () => {
   // fetching data remotely
-  const [data, setData] = useState<{ name: string; revenue:number; expenses:number }[]>([]);
+  const [data, setData] = useState<{ name: string; revenue:number; expenses:number; profit:number }[]>([]);
   const theme = useTheme();
   useEffect(() => {
     const fetchData = async () => {
@@ -30,6 +30,7 @@ export const Row1 = () => {
           name: month.month.substring(0, 3),
           revenue : parseFloat(month.revenue.replace('$','')),
           expenses : parseFloat(month.expenses.replace('$','')),
+          profit : parseFloat(month.revenue.replace('$',''))-parseFloat(month.expenses.replace('$','')), 
         }));
         setData(Data);
       }
@@ -41,11 +42,6 @@ export const Row1 = () => {
   return (
     <>
       <DashboardCard gridArea="a">
-        {/* <BoxHeader
-          title="Revenue and Expenses"
-          subtitle="top line represents revenue, bottom line represents expenses"
-          sideText="+4%"
-        /> */}
         <BoxHeader title = "Revenue & Expenses" subtitle="top line represents revenue, bottom line refers expenses" extra="+4%"></BoxHeader>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
@@ -116,8 +112,93 @@ export const Row1 = () => {
           </AreaChart>
         </ResponsiveContainer>
       </DashboardCard>
-      <DashboardCard gridArea="b">Hello</DashboardCard>
-      <DashboardCard gridArea="c">Hello</DashboardCard>
+      <DashboardCard gridArea="b">
+      <BoxHeader title="Profit and Revenue" subtitle="top line represents revenue, bottom line refers profit" extra="+4%" />
+      <ResponsiveContainer width="100%" height="100%">
+      <LineChart  
+      width={500}
+      height={400}
+      data={data}
+      margin={{
+        top: 20,
+        right: 0,
+        left: -10,
+        bottom: 55,
+      }}
+
+    >
+      <CartesianGrid vertical={false} stroke={themeSettings.palette.grey[800]} />
+      <XAxis dataKey="name" interval={0} fontSize={'10px'} />
+      <YAxis yAxisId="left" fontSize={'10px'} tickLine = {false} axisLine = {false}/>
+      <YAxis yAxisId="right" orientation="right" fontSize={'10px'} tickLine = {false} axisLine = {false}/>
+      <Tooltip />
+      <Legend
+              height={20}
+              wrapperStyle={{
+                margin: "0 0 10px 0",
+              }}
+            />
+      <Line
+        yAxisId="left"
+        type="monotone"
+        dataKey="profit"
+        stroke={themeSettings.palette.tertiary[500]}
+      />
+      <Line yAxisId="right" type="monotone" dataKey="revenue" stroke={themeSettings.palette.primary.main}/>
+    </LineChart>
+      </ResponsiveContainer>
+      
+      
+      </DashboardCard>
+      <DashboardCard gridArea="c">
+      <BoxHeader
+          title="Revenue Month by Month"
+          subtitle="graph representing the revenue month by month"
+          extra="+4%"
+        />
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            width={500}
+            height={300}
+            data={data}
+            margin={{
+              top: 17,
+              right: 15,
+              left: -5,
+              bottom: 58,
+            }}
+          >
+            <defs>
+              <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="5%"
+                  stopColor={themeSettings.palette.primary[300]}
+                  stopOpacity={0.8}
+                />
+                <stop
+                  offset="95%"
+                  stopColor={themeSettings.palette.primary[300]}
+                  stopOpacity={0}
+                />
+              </linearGradient>
+            </defs>
+            <CartesianGrid vertical={false} stroke={themeSettings.palette.grey[800]} />
+            <XAxis
+              dataKey="name"
+              axisLine={false}
+              tickLine={false}
+              style={{ fontSize: "10px" }}
+            />
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              style={{ fontSize: "10px" }}
+            />
+            <Tooltip />
+            <Bar dataKey="revenue" fill="url(#colorRevenue)" />
+          </BarChart>
+        </ResponsiveContainer>
+      </DashboardCard>
     </>
   );
 };
