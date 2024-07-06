@@ -188,6 +188,7 @@ export const Row1 = () => {
               axisLine={false}
               tickLine={false}
               style={{ fontSize: "10px" }}
+              interval={0}
             />
             <YAxis
               axisLine={false}

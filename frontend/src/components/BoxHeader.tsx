@@ -3,8 +3,8 @@ import { themeSettings } from "../theme"
 
 interface props{
     title : string, 
-    subtitle : string, 
-    extra : string
+    subtitle? : string, 
+    extra? : string
 }
 
 export const BoxHeader = ({title , subtitle, extra}:props)=>{
