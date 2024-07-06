@@ -1,15 +1,30 @@
 import axios from "axios";
 import { DashboardCard } from "./DashboardCard";
-import { ResponsiveContainer, CartesianGrid, AreaChart, XAxis, YAxis, Tooltip, Area, LineChart, Line, Legend, BarChart, Bar, Rectangle } from "recharts";
+import {
+  ResponsiveContainer,
+  CartesianGrid,
+  AreaChart,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Area,
+  LineChart,
+  Line,
+  Legend,
+  BarChart,
+  Bar,
+  Rectangle,
+} from "recharts";
 import { useEffect, useState } from "react";
 import { useTheme } from "@emotion/react";
 import { themeSettings } from "../theme";
 import { BoxHeader } from "./BoxHeader";
 
-
-async function getKpi(){
+async function getKpi() {
   try {
-    const response = await axios.get('https://backend.haqueinsham.workers.dev/kpi');
+    const response = await axios.get(
+      "https://backend.haqueinsham.workers.dev/kpi"
+    );
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -19,18 +34,22 @@ async function getKpi(){
 
 export const Row1 = () => {
   // fetching data remotely
-  const [data, setData] = useState<{ name: string; revenue:number; expenses:number; profit:number }[]>([]);
+  const [data, setData] = useState<
+    { name: string; revenue: number; expenses: number; profit: number }[]
+  >([]);
   const theme = useTheme();
   useEffect(() => {
     const fetchData = async () => {
       const response = await getKpi();
       if (response.length > 0) {
         const monthlyExpenses = response[0].monthlyExpenses;
-        const Data = monthlyExpenses.map((month:any) => ({
+        const Data = monthlyExpenses.map((month: any) => ({
           name: month.month.substring(0, 3),
-          revenue : parseFloat(month.revenue.replace('$','')),
-          expenses : parseFloat(month.expenses.replace('$','')),
-          profit : parseFloat(month.revenue.replace('$',''))-parseFloat(month.expenses.replace('$','')), 
+          revenue: parseFloat(month.revenue.replace("$", "")),
+          expenses: parseFloat(month.expenses.replace("$", "")),
+          profit:
+            parseFloat(month.revenue.replace("$", "")) -
+            parseFloat(month.expenses.replace("$", "")),
         }));
         setData(Data);
       }
@@ -42,7 +61,11 @@ export const Row1 = () => {
   return (
     <>
       <DashboardCard gridArea="a">
-        <BoxHeader title = "Revenue & Expenses" subtitle="top line represents revenue, bottom line refers expenses" extra="+4%"></BoxHeader>
+        <BoxHeader
+          title="Revenue & Expenses"
+          subtitle="top line represents revenue, bottom line refers expenses"
+          extra="+4%"
+        ></BoxHeader>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             width={500}
@@ -113,45 +136,65 @@ export const Row1 = () => {
         </ResponsiveContainer>
       </DashboardCard>
       <DashboardCard gridArea="b">
-      <BoxHeader title="Profit and Revenue" subtitle="top line represents revenue, bottom line refers profit" extra="+4%" />
-      <ResponsiveContainer width="100%" height="100%">
-      <LineChart  
-      width={500}
-      height={400}
-      data={data}
-      margin={{
-        top: 20,
-        right: 0,
-        left: -10,
-        bottom: 55,
-      }}
-
-    >
-      <CartesianGrid vertical={false} stroke={themeSettings.palette.grey[800]} />
-      <XAxis dataKey="name" interval={0} fontSize={'10px'} />
-      <YAxis yAxisId="left" fontSize={'10px'} tickLine = {false} axisLine = {false}/>
-      <YAxis yAxisId="right" orientation="right" fontSize={'10px'} tickLine = {false} axisLine = {false}/>
-      <Tooltip />
-      <Legend
+        <BoxHeader
+          title="Profit and Revenue"
+          subtitle="top line represents revenue, bottom line refers profit"
+          extra="+4%"
+        />
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            width={500}
+            height={400}
+            data={data}
+            margin={{
+              top: 20,
+              right: 0,
+              left: -10,
+              bottom: 55,
+            }}
+          >
+            <CartesianGrid
+              vertical={false}
+              stroke={themeSettings.palette.grey[800]}
+            />
+            <XAxis dataKey="name" interval={0} fontSize={"10px"} />
+            <YAxis
+              yAxisId="left"
+              fontSize={"10px"}
+              tickLine={false}
+              axisLine={false}
+            />
+            <YAxis
+              yAxisId="right"
+              orientation="right"
+              fontSize={"10px"}
+              tickLine={false}
+              axisLine={false}
+            />
+            <Tooltip />
+            <Legend
               height={20}
               wrapperStyle={{
                 margin: "0 0 10px 0",
               }}
             />
-      <Line
-        yAxisId="left"
-        type="monotone"
-        dataKey="profit"
-        stroke={themeSettings.palette.tertiary[500]}
-      />
-      <Line yAxisId="right" type="monotone" dataKey="revenue" stroke={themeSettings.palette.primary.main}/>
-    </LineChart>
-      </ResponsiveContainer>
-      
-      
+            <Line
+              yAxisId="left"
+              type="monotone"
+              dataKey="profit"
+              stroke={themeSettings.palette.tertiary[500]}
+            />
+            <Line
+              yAxisId="right"
+              type="monotone"
+              dataKey="revenue"
+              stroke={themeSettings.palette.primary.main}
+            />
+          </LineChart>
+        </ResponsiveContainer>
       </DashboardCard>
       <DashboardCard gridArea="c">
-      <BoxHeader
+        <BoxHeader
           title="Revenue Month by Month"
           subtitle="graph representing the revenue month by month"
           extra="+4%"
@@ -182,7 +225,10 @@ export const Row1 = () => {
                 />
               </linearGradient>
             </defs>
-            <CartesianGrid vertical={false} stroke={themeSettings.palette.grey[800]} />
+            <CartesianGrid
+              vertical={false}
+              stroke={themeSettings.palette.grey[800]}
+            />
             <XAxis
               dataKey="name"
               axisLine={false}

@@ -1,6 +1,6 @@
 import { DashboardCard } from "./DashboardCard";
 import getProducts from "../state/get_product";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import axios from "axios";
 import {
   CartesianGrid,
@@ -16,7 +16,7 @@ import {
   Bar,
   Rectangle,
 } from "recharts";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTheme } from "@emotion/react";
 import { themeSettings } from "../theme";
 import { BoxHeader } from "./BoxHeader";
@@ -25,7 +25,9 @@ import { useDemoData } from "@mui/x-data-grid-generator";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import getTransaction from "../state/get_transaction";
+import getKpi from "../state/get_kpi";
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
+import FlexBetween from "./flexbetween";
 
 // Create a dark theme
 
@@ -38,12 +40,12 @@ const productColumns = [
   },
   {
     field: "Expense",
-    headerName: "Expense",
+    headerName: "Expense ($)",
     flex: 0.5,
   },
   {
     field: "Price",
-    headerName: "Price",
+    headerName: "Price ($)",
     flex: 0.5,
   },
 ];
@@ -60,7 +62,7 @@ const TranactionColumns = [
   },
   {
     field: "Amount",
-    headerName: "Amount",
+    headerName: "Amount ($)",
     flex: 0.5,
   },
   {
@@ -69,6 +71,10 @@ const TranactionColumns = [
     flex: 0.5,
   },
 ];
+interface ExpenseData {
+  name: string;
+  value: number;
+}
 
 export const Row3 = () => {
   const { palette } = useTheme();
@@ -79,10 +85,19 @@ export const Row3 = () => {
   const [data1, setData1] = useState<
     { name: string; revenue: number; expenses: number; profit: number }[]
   >([]);
+
+  const [salaryData, setSalaryData] = useState<ExpenseData[]>([]);
+  const [supplyData, setSupplyData] = useState<ExpenseData[]>([]);
+  const [serviceData, setServiceData] = useState<ExpenseData[]>([]);
+  console.log(salaryData);
+  console.log("this is the salary data maadrchod");
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await getProducts();
       const response1 = await getTransaction();
+
       const Data = response.map((product: any) => ({
         id: product.id,
         Price: parseFloat(product.Price.replace("$", "")),
@@ -96,12 +111,58 @@ export const Row3 = () => {
         Count: transaction.Products.length,
       }));
 
+      //   const Data2 = response3[1].expenses_by_category.map((res) => {
+      //     const salaries = parseFloat(res.Salaries.replace("$", ""));
+      //     const supplies = parseFloat(res.Supplies.replace("$", ""));
+      //     const services = parseFloat(res.Services.replace("$", ""));
+      //     const total = salaries + supplies + services;
+
+      //     return [
+      //       { name: "Salaries", value: (salaries / total) * 100 },
+      //       { name: "Supplies", value: (supplies / total) * 100 },
+      //       { name: "Services", value: (services / total) * 100 }
+      //     ];
+      //   });
+
       setData(Data);
       setData1(Data1);
     };
 
     fetchData();
   }, []); // Added closing bracket and semicolon here
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getKpi();
+      const totalExpenses = response[0].totalExpenses;
+
+      const expenses = response[0].expenses_by_category[0];
+      console.log(expenses);
+      console.log("this is expenses maadrchod please");
+
+      const salaryValue = parseFloat(expenses.Salaries.replace("$", ""));
+      const supplyValue = parseFloat(expenses.Supplies.replace("$", ""));
+      const serviceValue = parseFloat(expenses.Services.replace("$", ""));
+      const totalValue = salaryValue + supplyValue + serviceValue;
+      console.log("ma ka bhosda");
+      setSalaryData([
+        { name: "Salary", value: salaryValue },
+        { name: "Other", value: totalValue - salaryValue },
+      ]);
+
+      setSupplyData([
+        { name: "Supply", value: supplyValue },
+        { name: "Other", value: totalValue - supplyValue },
+      ]);
+
+      setServiceData([
+        { name: "Service", value: serviceValue },
+        { name: "Other", value: totalValue - serviceValue },
+      ]);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -176,7 +237,13 @@ export const Row3 = () => {
         </Box>
       </DashboardCard>
       <DashboardCard gridArea="i" bgcolor="#fff">
-        heello
+        <BoxHeader title="Expense Breakdown By Category" extra="+4%" />
+        <FlexBetween
+          mt="0.5rem"
+          gap="0.5rem"
+          p="0 1rem"
+          textAlign="center"
+        ></FlexBetween>
       </DashboardCard>
       <DashboardCard gridArea="j" bgcolor="#fff">
         Hello
