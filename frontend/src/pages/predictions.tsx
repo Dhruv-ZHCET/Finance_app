@@ -24,7 +24,6 @@ import { themeSettings } from "../theme";
 import regression, { DataPoint } from "regression";
 
 const Predictions = ({ kpis }) => {
-  const { palette } = useTheme();
   const [isPrediction, setisPrediction] = useState(false);
 
   const formattedData = useMemo(() => {
@@ -62,8 +61,8 @@ const Predictions = ({ kpis }) => {
           <Button
             onClick={() => setisPrediction(!isPrediction)}
             sx={{
-              color: palette.grey[900],
-              backgroundColor: palette.grey[700],
+              color: themeSettings.palette.grey[900],
+              backgroundColor: themeSettings.palette.grey[700],
               boxShadow: "0.1rem 0.1rem 0.1rem 0.1rem rgba(0,0,0,.4)",
             }}
           >
@@ -104,7 +103,7 @@ const Predictions = ({ kpis }) => {
             <Line
               type="monotone"
               dataKey="Actual Revenue"
-              stroke={palette.primary.main}
+              stroke={themeSettings.palette.primary.main}
               strokeWidth={0}
               dot={{ strokeWidth: 5 }}
             />
@@ -118,7 +117,7 @@ const Predictions = ({ kpis }) => {
               <Line
                 strokeDasharray="5 5"
                 dataKey="Predicted Revenue"
-                stroke={palette.secondary[500]}
+                stroke={themeSettings.palette.secondary[500]}
               />
             )}
           </LineChart>
