@@ -7,19 +7,7 @@ interface Authprops {
     str  : string
 }
 export const Auth = ({str} : Authprops)=>{
-    // const [postinput,setpostinput] = useState<signupinput>({
-    //     name : "",
-    //     email : "",
-    //     password : ""
-    // })
-    // const navigate = useNavigate();
-    // async function sendReq(){
-    //     const res = await axios.post(`${BACKEND_URL}/api/v1/user/signup`,postinput);
-    //     const jwt = res.data;
-    //     console.log(jwt);
-    //     localStorage.setItem("token",jwt);
-    //     navigate('/blogs');
-    // }
+    const navigate = useNavigate();
     return(
         <div className="text-center ">
             <div className= "font-bold text-4xl text-slate-200 ">
@@ -54,7 +42,10 @@ export const Auth = ({str} : Authprops)=>{
                 //  }}
                  />
                  <div className="mt-10">
-                 <button type="button" className="w-full text-white bg-slate-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium  rounded-md text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">{str==='signup'?'Sign Up':'Sign in'}</button>
+                 <button type="button" className="w-full text-white bg-slate-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium  rounded-md text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+                 onClick={()=>{
+                    navigate('/dashboard');
+                 }}>{str==='signup'?'Sign Up':'Sign in'}</button>
                  </div>
                  
             </div>

@@ -54,12 +54,16 @@ function App() {
     </div>
   );
 }
+//for conditionally rendering navbar when not on signup/signin/landing page
 const AppContent = ({ kpis } : any) => {
   const location = useLocation();
   const[shownavbar,setshownavbar] = useState(true);
 
   useEffect(()=>{
     if(location.pathname === "/signup"){
+      setshownavbar(false);
+    }
+    else if(location.pathname === "/"){
       setshownavbar(false);
     }
     else{
@@ -72,7 +76,7 @@ const AppContent = ({ kpis } : any) => {
       {shownavbar? <Navbar /> : null}
 
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<Signup />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/prediction" element={<Predictions kpis={kpis} />} />
         <Route path="/signup" element={<Signup />} />
