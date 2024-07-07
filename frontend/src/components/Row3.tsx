@@ -76,8 +76,32 @@ interface ExpenseData {
   value: number;
 }
 
-export const Row3 = () => {
-  const pieColors = [themeSettings.palette.primary[800], themeSettings.palette.primary[500]];
+export const Row3 = ({ kpis1 }) => {
+  const pieChartData = useMemo(() => {
+    console.log("hi");
+    if (kpis1) {
+      const totalExpenses = 71000;
+
+      return Object.entries(kpis1).map(([key, value]) => {
+        return [
+          {
+            name: key,
+            value: parseFloat(value.replace("$", "")),
+          },
+          {
+            name: `${key} of Total`,
+            value: totalExpenses - parseFloat(value.replace("$", "")),
+          },
+        ];
+      });
+    }
+  }, [kpis1]);
+
+  const pieColors = [
+    themeSettings.palette.primary[800],
+    themeSettings.palette.primary[500],
+  ];
+
   const [data, setData] = useState<
     { name: string; revenue: number; expenses: number; profit: number }[]
   >([]);
@@ -112,9 +136,7 @@ export const Row3 = () => {
   }, []);
   //for expenses_by_category
 
-// Use the pieChartData state where necessary
-
-
+  // Use the pieChartData state where necessary
 
   return (
     <>
@@ -190,9 +212,52 @@ export const Row3 = () => {
       </DashboardCard>
       <DashboardCard gridArea="i">
         <BoxHeader title="Expense Breakdown By Category" extra="+4%" />
+        <FlexBetween mt="0.5rem" gap="0.5rem" p="0 1rem" textAlign="center">
+          {pieChartData?.map((data, i) => (
+            <Box key={`${data[0].name}-${i}`}>
+              <PieChart width={110} height={75}>
+                <Pie
+                  stroke="none"
+                  data={data}
+                  innerRadius={18}
+                  outerRadius={35}
+                  paddingAngle={2}
+                  dataKey="value"
+                >
+                  {data.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={pieColors[index]} />
+                  ))}
+                </Pie>
+              </PieChart>
+              <Typography variant="h5">{data[0].name}</Typography>
+            </Box>
+          ))}
+        </FlexBetween>
       </DashboardCard>
-      <DashboardCard gridArea="j" >
-        Hello
+      <DashboardCard gridArea="j">
+        <BoxHeader
+          title="Overall Summary and Explanation Data"
+          sideText="+15%"
+        />
+        <Box
+          height="15px"
+          margin="1.25rem 1rem 0.4rem 1rem"
+          bgcolor={themeSettings.palette.primary[800]}
+          borderRadius="1rem"
+        >
+          <Box
+            height="15px"
+            bgcolor={themeSettings.palette.primary[600]}
+            borderRadius="1rem"
+            width="40%"
+          ></Box>
+        </Box>
+        <Typography margin="0 1rem" variant="h6">
+          Orci aliquam enim vel diam. Venenatis euismod id donec mus lorem etiam
+          ullamcorper odio sed. Ipsum non sed gravida etiam urna egestas
+          molestie volutpat et. Malesuada quis pretium aliquet lacinia ornare
+          sed. In volutpat nullam at est id cum pulvinar nunc.
+        </Typography>
       </DashboardCard>
     </>
   );

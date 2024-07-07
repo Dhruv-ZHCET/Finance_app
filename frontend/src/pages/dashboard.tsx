@@ -50,8 +50,7 @@ const gridmallScreen = `
     "j"
 `;
 
-export const Dashboard = () => {
-
+export const Dashboard = ({ kpis1 }) => {
   const isAbove = useMediaQuery("(min-width:1200px)");
   return (
     <Box
@@ -75,7 +74,7 @@ export const Dashboard = () => {
     >
       <Row1 />
       <Row2 />
-      <Row3 />
+      <Row3 kpis1={kpis1} />
     </Box>
   );
 };
