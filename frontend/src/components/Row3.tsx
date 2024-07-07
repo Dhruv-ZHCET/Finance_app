@@ -71,8 +71,7 @@ const TranactionColumns = [
 ];
 
 export const Row3 = () => {
-  const { palette } = useTheme();
-  const pieColors = [palette.primary[800], palette.primary[500]];
+  const pieColors = [themeSettings.palette.primary[800], themeSettings.palette.primary[500]];
   const [data, setData] = useState<
     { name: string; revenue: number; expenses: number; profit: number }[]
   >([]);
@@ -140,7 +139,7 @@ export const Row3 = () => {
           />
         </Box>
       </DashboardCard>
-      <DashboardCard gridArea="h" bgcolor="#fff">
+      <DashboardCard gridArea="h">
         <BoxHeader
           title="Recent Orders"
           subtitle=""

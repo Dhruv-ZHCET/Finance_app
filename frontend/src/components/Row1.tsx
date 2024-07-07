@@ -20,7 +20,6 @@ async function getKpi(){
 export const Row1 = () => {
   // fetching data remotely
   const [data, setData] = useState<{ name: string; revenue:number; expenses:number; profit:number }[]>([]);
-  const theme = useTheme();
   useEffect(() => {
     const fetchData = async () => {
       const response = await getKpi();
