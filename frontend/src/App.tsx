@@ -2,12 +2,13 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useEffect, useMemo, useState } from "react";
 import { themeSettings } from "./theme";
 import { CssBaseline } from "@mui/material";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, useFetcher } from "react-router-dom";
 import { Navbar } from "./components/navbar";
 import { Dashboard } from "./pages/dashboard";
 import Predictions from "./pages/predictions";
 import axios from "axios";
-import getKpi from "./state/get_kpi";
+import { Signup } from "./pages/signup";
+
 
 function App() {
   const theme = useMemo(() => createTheme(themeSettings), []);
@@ -21,7 +22,7 @@ function App() {
         );
 
         const res = response.data[0].monthlyExpenses;
-        const res1 = res.map((obj) => ({
+        const res1 = res.map((obj:any) => ({
           ...obj,
           expenses: parseFloat(obj.expenses.replace("$", "")),
           operationalExpenses: parseFloat(
@@ -47,16 +48,37 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/prediction" element={<Predictions kpis={kpis} />} />
-          </Routes>
+          <AppContent kpis={kpis} />
         </BrowserRouter>
       </ThemeProvider>
     </div>
   );
 }
+const AppContent = ({ kpis } : any) => {
+  const location = useLocation();
+  const[shownavbar,setshownavbar] = useState(true);
+
+  useEffect(()=>{
+    if(location.pathname === "/signup"){
+      setshownavbar(false);
+    }
+    else{
+      setshownavbar(true);
+    }
+  },[location])
+
+  return (
+    <>
+      {shownavbar? <Navbar /> : null}
+
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/prediction" element={<Predictions kpis={kpis} />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+    </>
+  );
+};
 
 export default App;
