@@ -8,6 +8,7 @@ import { Dashboard } from "./pages/dashboard";
 import Predictions from "./pages/predictions";
 import axios from "axios";
 import { Signup } from "./pages/signup";
+import { Signin } from "./pages/signin";
 
 
 function App() {
@@ -63,7 +64,10 @@ const AppContent = ({ kpis } : any) => {
     if(location.pathname === "/signup"){
       setshownavbar(false);
     }
-    else if(location.pathname === "/"){
+    else if(location.pathname === "/signin"){
+      setshownavbar(false);
+    }
+    else if(location.pathname==='/'){
       setshownavbar(false);
     }
     else{
@@ -80,6 +84,7 @@ const AppContent = ({ kpis } : any) => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/prediction" element={<Predictions kpis={kpis} />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/signin" element={<Signin />} />
       </Routes>
     </>
   );
