@@ -14,6 +14,7 @@ import { Dashboard } from "./pages/dashboard";
 import Predictions from "./pages/predictions";
 import axios from "axios";
 import { Signup } from "./pages/signup";
+import { Signin } from "./pages/signin";
 
 function App() {
   const theme = useMemo(() => createTheme(themeSettings), []);
@@ -83,7 +84,15 @@ const AppContent = ({ kpis, kpis1 }: any) => {
   useEffect(() => {
     if (location.pathname === "/signup") {
       setshownavbar(false);
+<<<<<<< HEAD
     } else if (location.pathname === "/") {
+=======
+    }
+    else if(location.pathname === "/signin"){
+      setshownavbar(false);
+    }
+    else if(location.pathname==='/'){
+>>>>>>> f77a54fd01c3e30ae4ec5e6552cc73fabfc2ae38
       setshownavbar(false);
     } else {
       setshownavbar(true);
@@ -99,6 +108,7 @@ const AppContent = ({ kpis, kpis1 }: any) => {
         <Route path="/dashboard" element={<Dashboard kpis1={kpis1} />} />
         <Route path="/prediction" element={<Predictions kpis={kpis} />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/signin" element={<Signin />} />
       </Routes>
     </>
   );
