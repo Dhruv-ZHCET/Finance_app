@@ -10,6 +10,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import getTransaction from "../state/get_transaction";
 import { PieChart, Pie, Cell } from "recharts";
 import FlexBetween from "./flexbetween";
+import { ExpenseBreakdown } from "../App";
+import { Product } from "./Row2";
 
 // Create a dark theme
 
@@ -54,7 +56,19 @@ const TranactionColumns = [
   },
 ];
 
-export const Row3 = ({ kpis1 }: any) => {
+interface Product1 {
+  Pr_id: string;
+  Tr_id: string;
+}
+
+interface Transaction {
+  id: string;
+  Amount: string;
+  Buyer: string;
+  Products: Product1[];
+}
+
+export const Row3 = ({ kpis1 }: { kpis1: ExpenseBreakdown }) => {
   const [loading1, setloading1] = useState(true);
   const [loading2, setloading2] = useState(false);
   const pieChartData = useMemo(() => {
@@ -95,13 +109,13 @@ export const Row3 = ({ kpis1 }: any) => {
       const response = await getProducts();
       const response1 = await getTransaction();
 
-      const Data = response.map((product: any) => ({
+      const Data = response.map((product: Product) => ({
         id: product.id,
         Price: parseFloat(product.Price.replace("$", "")),
         Expense: parseFloat(product.Expense.replace("$", "")),
       }));
 
-      const Data1 = response1.map((transaction: any) => ({
+      const Data1 = response1.map((transaction: Transaction) => ({
         id: transaction.id,
         Amount: parseFloat(transaction.Amount.replace("$", "")),
         Buyer: transaction.Buyer,
@@ -238,7 +252,7 @@ export const Row3 = ({ kpis1 }: any) => {
                       paddingAngle={2}
                       dataKey="value"
                     >
-                      {data.map((entry, index) => (
+                      {data.map((_, index) => (
                         <Cell key={`cell-${index}`} fill={pieColors[index]} />
                       ))}
                     </Pie>

@@ -4,6 +4,7 @@ import { Box, useMediaQuery } from "@mui/material";
 import { Row1 } from "../components/Row1";
 import { Row3 } from "../components/Row3";
 import { Row2 } from "../components/Row2";
+import { ExpenseBreakdown } from "../App";
 
 const gridParam = `
     "a b c"
@@ -50,7 +51,7 @@ const gridmallScreen = `
     "j"
 `;
 
-export const Dashboard = ({ kpis1 }) => {
+export const Dashboard = ({ kpis1 }: { kpis1: ExpenseBreakdown }) => {
   const isAbove = useMediaQuery("(min-width:1200px)");
   return (
     <Box

@@ -3,9 +3,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 interface Authprops {
   str: string;
 }
+
 export const Auth = ({ str }: Authprops) => {
   const navigate = useNavigate();
   const [postInputs, setPostInputs] = useState({
@@ -93,22 +95,10 @@ export const Auth = ({ str }: Authprops) => {
                     position: "top-right",
                   });
                 }
-              } catch (error: any) {
-                if (error.response) {
-                  if (error.response.status === 404) {
-                    toast.error("User already exists, try logging in", {
-                      position: "top-right",
-                    });
-                  } else {
-                    toast.error("Bad credentials", {
-                      position: "top-right",
-                    });
-                  }
-                } else {
-                  toast.error("Network error", {
-                    position: "top-right",
-                  });
-                }
+              } catch (error: unknown) {
+                toast.error("Bad credentials", {
+                  position: "top-right",
+                });
               }
             }}
           >

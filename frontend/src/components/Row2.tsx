@@ -15,21 +15,32 @@ import {
   Cell,
 } from "recharts";
 import { useEffect, useState } from "react";
-import { useTheme } from "@emotion/react";
 import { BoxHeader } from "./BoxHeader";
 import { themeSettings } from "../theme";
 import getKpi from "../state/get_kpi";
 import getProducts from "../state/get_product";
 import FlexBetween from "./flexbetween";
 import { Box, Typography } from "@mui/material";
+import { Statement1 } from "../App";
 
 const PieData = [
   { name: "Group A", value: 600 },
   { name: "Group B", value: 400 },
 ];
 
+export interface Product {
+  id: string;
+  Price: string;
+  Expense: string;
+  transactions: Transaction[];
+}
+
+interface Transaction {
+  Pr_id: string;
+  Tr_id: string;
+}
+
 export const Row2 = () => {
-  const theme = useTheme();
   const pieColors = [
     themeSettings.palette.primary[800],
     themeSettings.palette.primary[300],
@@ -46,7 +57,7 @@ export const Row2 = () => {
       const response = await getKpi();
       if (response.length > 0) {
         const monthlyExpenses = response[0].monthlyExpenses;
-        const Data = monthlyExpenses.map((month: any) => ({
+        const Data = monthlyExpenses.map((month: Statement1) => ({
           name: month.month.substring(0, 3),
           operational: parseFloat(month.operationalExpenses.replace("$", "")),
           nonOperational: parseFloat(
@@ -63,7 +74,7 @@ export const Row2 = () => {
     const fetchData = async () => {
       const response = await getProducts();
       if (response.length > 0) {
-        const Data = response.map((each: any) => ({
+        const Data = response.map((each: Product) => ({
           price: parseFloat(each.Price.replace("$", "")),
           expense: parseFloat(each.Expense.replace("$", "")),
         }));
@@ -73,7 +84,7 @@ export const Row2 = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [data2]);
 
   return (
     <>
@@ -167,7 +178,7 @@ export const Row2 = () => {
               paddingAngle={2}
               dataKey="value"
             >
-              {PieData.map((entry, index) => (
+              {PieData.map((_, index) => (
                 <Cell key={`cell-${index}`} fill={pieColors[index]} />
               ))}
             </Pie>

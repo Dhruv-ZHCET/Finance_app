@@ -12,18 +12,46 @@ import { Signup } from "./pages/signup";
 import { Signin } from "./pages/signin";
 import { BACKEND_URL } from "./config";
 
+export interface Statement {
+  id: number;
+  statementId: number;
+  month: string;
+  expenses: number;
+  operationalExpenses: number;
+  nonOperationalExpenses: number;
+  revenue: number;
+}
+export interface Statement1 {
+  id: number;
+  statementId: number;
+  month: string;
+  expenses: string;
+  operationalExpenses: string;
+  nonOperationalExpenses: string;
+  revenue: string;
+}
+
+export interface ExpenseBreakdown {
+  Salaries: string;
+  Supplies: string;
+  Services: string;
+}
+
 function App() {
   const theme = useMemo(() => createTheme(themeSettings), []);
-  const [kpis, setKpis] = useState([]);
-  const [kpis1, setKpis1] = useState({});
-
+  const [kpis, setKpis] = useState<Statement[]>([]);
+  const [kpis1, setKpis1] = useState<ExpenseBreakdown>({
+    Salaries: "",
+    Supplies: "",
+    Services: "",
+  });
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${BACKEND_URL}/kpi`);
         console.log("response", response);
         const res = response.data[0].monthlyExpenses;
-        const res1 = res.map((obj: any) => ({
+        const res1 = res.map((obj: Statement1) => ({
           ...obj,
           expenses: parseFloat(obj.expenses.replace("$", "")),
           operationalExpenses: parseFloat(
@@ -50,8 +78,6 @@ function App() {
     fetchData();
   }, []);
 
-  console.log("kpi1", kpis1);
-
   return (
     <div className="app">
       <ThemeProvider theme={theme}>
@@ -66,7 +92,13 @@ function App() {
   );
 }
 //for conditionally rendering navbar when not on signup/signin/landing page
-const AppContent = ({ kpis, kpis1 }: any) => {
+const AppContent = ({
+  kpis,
+  kpis1,
+}: {
+  kpis: Statement[]; // <--- changed from Statement to Statement[]
+  kpis1: ExpenseBreakdown;
+}) => {
   const location = useLocation();
   const [shownavbar, setshownavbar] = useState(true);
 

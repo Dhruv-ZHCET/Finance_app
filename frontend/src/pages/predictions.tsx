@@ -16,8 +16,9 @@ import {
 } from "recharts";
 import { themeSettings } from "../theme";
 import regression, { DataPoint } from "regression";
+import { Statement } from "../App";
 
-const Predictions = ({ kpis }) => {
+const Predictions = ({ kpis }: { kpis: Statement[] }) => {
   const [isPrediction, setisPrediction] = useState(false);
 
   const formattedData = useMemo(() => {
