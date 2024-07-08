@@ -63,11 +63,11 @@ export const Auth2 = ({ str }: Authprops) => {
             onClick={async () => {
               try {
                 const response = await axios.post(
-                  "http://127.0.0.1:8787/signin",
+                  "https://backend.haqueinsham.workers.dev/signin",
                   inputs
                 );
                 if (response.status === 200) {
-                  toast.success("Form submitted successfully!", {
+                  toast.success("Welcome User", {
                     position: "top-right",
                     autoClose: 3000, // 3 seconds
                     hideProgressBar: false,
@@ -76,11 +76,7 @@ export const Auth2 = ({ str }: Authprops) => {
                     draggable: true,
                   });
                   navigate("/dashboard");
-                } else {
-                  toast.error("Error submitting form", {
-                    position: "top-right",
-                  });
-                }
+                } 
               } catch (e) {
                 console.log("error", e);
                 toast.error("Bad credentials", {
