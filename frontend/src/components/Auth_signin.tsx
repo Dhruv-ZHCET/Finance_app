@@ -1,8 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Email, Password } from "@mui/icons-material";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 interface Authprops {
   str: string;
@@ -76,7 +75,7 @@ export const Auth2 = ({ str }: Authprops) => {
                     draggable: true,
                   });
                   navigate("/dashboard");
-                } 
+                }
               } catch (e) {
                 console.log("error", e);
                 toast.error("Bad credentials", {
@@ -113,7 +112,7 @@ function InputPlaceholder({
         onChange={onchange}
         type={type || "text"}
         id="first_name"
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm w-full rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
         placeholder={placeholder}
         required
       />

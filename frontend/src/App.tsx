@@ -3,19 +3,14 @@ import { useEffect, useMemo, useState } from "react";
 import { themeSettings } from "./theme";
 import { CssBaseline } from "@mui/material";
 import { ToastContainer } from "react-toastify";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  useLocation,
-  useFetcher,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Navbar } from "./components/navbar";
 import { Dashboard } from "./pages/dashboard";
 import Predictions from "./pages/predictions";
 import axios from "axios";
 import { Signup } from "./pages/signup";
 import { Signin } from "./pages/signin";
+import { BACKEND_URL } from "./config";
 
 function App() {
   const theme = useMemo(() => createTheme(themeSettings), []);
@@ -25,9 +20,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "https://backend.dhruv-legend2004.workers.dev/kpi"
-        );
+        const response = await axios.get(`${BACKEND_URL}/kpi`);
         console.log("response", response);
         const res = response.data[0].monthlyExpenses;
         const res1 = res.map((obj: any) => ({
@@ -45,13 +38,6 @@ function App() {
         delete res11.id;
         delete res11.statement_id;
         console.log("res11", res11);
-        // const res32 = response[0].expenses_by_category;
-
-        // const res33 = res32.map((obj: any) => ({
-        //   Salaries: parseFloat(obj.Salaries.replace("$", "")),
-        //   Supplies: parseFloat(obj.Supplies.replace("$", "")),
-        //   Services: parseFloat(obj.Services.replace("$", "")),
-        // }));
 
         console.log(res1);
         setKpis1(res11);

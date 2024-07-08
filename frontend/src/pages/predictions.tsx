@@ -1,4 +1,3 @@
-import { useTheme } from "@emotion/react";
 import { useMemo, useState } from "react";
 import { DashboardCard } from "../components/DashboardCard";
 import FlexBetween from "../components/flexbetween";
@@ -7,17 +6,12 @@ import { Box, Button } from "@mui/material";
 import {
   ResponsiveContainer,
   CartesianGrid,
-  AreaChart,
   XAxis,
   YAxis,
   Tooltip,
-  Area,
   LineChart,
   Line,
   Legend,
-  BarChart,
-  Bar,
-  Rectangle,
   Label,
 } from "recharts";
 import { themeSettings } from "../theme";

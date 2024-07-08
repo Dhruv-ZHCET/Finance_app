@@ -1,10 +1,8 @@
 import axios from "axios";
-
+import { BACKEND_URL } from "../config";
 async function getKpi() {
   try {
-    const response = await axios.get(
-      "https://backend.haqueinsham.workers.dev/kpi"
-    );
+    const response = await axios.get(`${BACKEND_URL}/kpi`);
     console.log(response.data);
     return response.data;
   } catch (error) {

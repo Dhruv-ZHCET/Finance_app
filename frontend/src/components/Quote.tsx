@@ -1,21 +1,21 @@
 import { useTypewriter, Cursor } from "react-simple-typewriter";
-import 'react-simple-typewriter';
+import "react-simple-typewriter";
 
 const quotes = [
   "It's not about having lots of money. It's about knowing how to manage it.",
   "A budget is telling your money where to go instead of wondering where it went.",
   "Wealth consists not in having great possessions, but in having few wants.",
   "The art is not in making money, but in keeping it.",
-  "Beware of little expenses; a small leak will sink a great ship."
+  "Beware of little expenses; a small leak will sink a great ship.",
 ];
 
 export const Quote = () => {
-  const [text, count] = useTypewriter({
+  const [text] = useTypewriter({
     words: quotes,
     loop: true,
     typeSpeed: 70,
     deleteSpeed: 50,
-    delaySpeed: 1500
+    delaySpeed: 1500,
   });
 
   return (

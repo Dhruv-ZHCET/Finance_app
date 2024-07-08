@@ -1,32 +1,14 @@
 import { DashboardCard } from "./DashboardCard";
 import getProducts from "../state/get_product";
 import { Box, Typography } from "@mui/material";
-import axios from "axios";
-import {
-  CartesianGrid,
-  AreaChart,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Area,
-  LineChart,
-  Line,
-  Legend,
-  BarChart,
-  Bar,
-  Rectangle,
-} from "recharts";
-import { useEffect, useRef, useState, useMemo } from "react";
-import { useTheme } from "@emotion/react";
+
+import { useEffect, useState, useMemo } from "react";
 import { themeSettings } from "../theme";
 import { BoxHeader } from "./BoxHeader";
-import { useDemoData } from "@mui/x-data-grid-generator";
 
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { DataGrid } from "@mui/x-data-grid";
 import getTransaction from "../state/get_transaction";
-import getKpi from "../state/get_kpi";
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell } from "recharts";
 import FlexBetween from "./flexbetween";
 
 // Create a dark theme
@@ -71,21 +53,17 @@ const TranactionColumns = [
     flex: 0.5,
   },
 ];
-interface ExpenseData {
-  name: string;
-  value: number;
-}
 
-export const Row3 = ({ kpis1 }) => {
-  const [loading1,setloading1] = useState(true);
-  const [loading2,setloading2] = useState(false);
+export const Row3 = ({ kpis1 }: any) => {
+  const [loading1, setloading1] = useState(true);
+  const [loading2, setloading2] = useState(false);
   const pieChartData = useMemo(() => {
     console.log("hi");
     if (kpis1) {
       const totalExpenses = 71000;
 
       return Object.entries(kpis1).map(([key, value]) => {
-        setloading1(false)
+        setloading1(false);
         return [
           {
             name: key,
@@ -111,8 +89,6 @@ export const Row3 = ({ kpis1 }) => {
   const [data1, setData1] = useState<
     { name: string; revenue: number; expenses: number; profit: number }[]
   >([]);
-
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -145,52 +121,57 @@ export const Row3 = ({ kpis1 }) => {
   return (
     <>
       <DashboardCard gridArea="g">
-        {loading2?<div className="flex justify-center items-center h-full">
-        <button
-        type="button"
-        className="pointer-events-none inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 disabled:opacity-70 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
-        disabled>
-        <div
-          className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-e-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-          role="status"></div>
-        <span>Loading...</span>
-      </button>
-      </div>:
-      <>
-        <BoxHeader
-          title="List of Products"
-          subtitle=""
-          extra={`${data?.length} products`}
-        />
-        <Box
-          mt="0.5rem"
-          p="0 0.5rem"
-          height="75%"
-          sx={{
-            "& .MuiDataGrid-root": {
-              color: themeSettings.palette.grey[300],
-              border: "none",
-            },
-            "& .MuiDataGrid-cell": {
-              borderBottom: `1px solid ${themeSettings.palette.grey[300]} !important`,
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              borderBottom: `1px solid ${themeSettings.palette.grey[300]} !important`,
-            },
-            "& .MuiDataGrid-columnSeparator": {
-              visibility: "hidden",
-            },
-          }}
-        >
-          <DataGrid
-            columnHeaderHeight={25}
-            rowHeight={35}
-            hideFooter={true}
-            rows={data || []}
-            columns={productColumns}
-          />
-        </Box>
-        </>}
+        {loading2 ? (
+          <div className="flex justify-center items-center h-full">
+            <button
+              type="button"
+              className="pointer-events-none inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 disabled:opacity-70 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+              disabled
+            >
+              <div
+                className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-e-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                role="status"
+              ></div>
+              <span>Loading...</span>
+            </button>
+          </div>
+        ) : (
+          <>
+            <BoxHeader
+              title="List of Products"
+              subtitle=""
+              extra={`${data?.length} products`}
+            />
+            <Box
+              mt="0.5rem"
+              p="0 0.5rem"
+              height="75%"
+              sx={{
+                "& .MuiDataGrid-root": {
+                  color: themeSettings.palette.grey[300],
+                  border: "none",
+                },
+                "& .MuiDataGrid-cell": {
+                  borderBottom: `1px solid ${themeSettings.palette.grey[300]} !important`,
+                },
+                "& .MuiDataGrid-columnHeaders": {
+                  borderBottom: `1px solid ${themeSettings.palette.grey[300]} !important`,
+                },
+                "& .MuiDataGrid-columnSeparator": {
+                  visibility: "hidden",
+                },
+              }}
+            >
+              <DataGrid
+                columnHeaderHeight={25}
+                rowHeight={35}
+                hideFooter={true}
+                rows={data || []}
+                columns={productColumns}
+              />
+            </Box>
+          </>
+        )}
       </DashboardCard>
       <DashboardCard gridArea="h">
         <BoxHeader
@@ -228,48 +209,49 @@ export const Row3 = ({ kpis1 }) => {
         </Box>
       </DashboardCard>
       <DashboardCard gridArea="i">
-        {loading1?
-        <div className="flex justify-center items-center h-full">
-        <button
-        type="button"
-        className="pointer-events-none inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 disabled:opacity-70 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
-        disabled>
-        <div
-          className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-e-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-          role="status"></div>
-        <span>Loading...</span>
-      </button>
-      </div>:
-      <>
-        <BoxHeader title="Expense Breakdown By Category" extra="+4%" />
-        <FlexBetween mt="0.5rem" gap="0.5rem" p="0 1rem" textAlign="center">
-          {pieChartData?.map((data, i) => (
-            <Box key={`${data[0].name}-${i}`}>
-              <PieChart width={110} height={75}>
-                <Pie
-                  stroke="none"
-                  data={data}
-                  innerRadius={18}
-                  outerRadius={35}
-                  paddingAngle={2}
-                  dataKey="value"
-                >
-                  {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={pieColors[index]} />
-                  ))}
-                </Pie>
-              </PieChart>
-              <Typography variant="h5">{data[0].name}</Typography>
-            </Box>
-          ))}
-        </FlexBetween>
-        </>}
+        {loading1 ? (
+          <div className="flex justify-center items-center h-full">
+            <button
+              type="button"
+              className="pointer-events-none inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 disabled:opacity-70 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+              disabled
+            >
+              <div
+                className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-e-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                role="status"
+              ></div>
+              <span>Loading...</span>
+            </button>
+          </div>
+        ) : (
+          <>
+            <BoxHeader title="Expense Breakdown By Category" extra="+4%" />
+            <FlexBetween mt="0.5rem" gap="0.5rem" p="0 1rem" textAlign="center">
+              {pieChartData?.map((data, i) => (
+                <Box key={`${data[0].name}-${i}`}>
+                  <PieChart width={110} height={75}>
+                    <Pie
+                      stroke="none"
+                      data={data}
+                      innerRadius={18}
+                      outerRadius={35}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {data.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={pieColors[index]} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                  <Typography variant="h5">{data[0].name}</Typography>
+                </Box>
+              ))}
+            </FlexBetween>
+          </>
+        )}
       </DashboardCard>
       <DashboardCard gridArea="j">
-        <BoxHeader
-          title="Overall Summary and Explanation Data"
-          sideText="+15%"
-        />
+        <BoxHeader title="Overall Summary and Explanation Data" extra="+15%" />
         <Box
           height="15px"
           margin="1.25rem 1rem 0.4rem 1rem"

@@ -2,17 +2,16 @@ import { Button, Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import PixIcon from "@mui/icons-material/Pix";
 import { useNavigate } from "react-router-dom";
-import { themeSettings } from "../theme";
-export const Navbar = ()=>{
+export const Navbar = () => {
   const { palette } = useTheme();
 
   console.log(palette.grey[500]);
   const navigate = useNavigate();
-  async function dashbordclick(){
-   navigate('/dashboard'); 
+  async function dashbordclick() {
+    navigate("/dashboard");
   }
-  async function predictionclick(){
-    navigate('/prediction');
+  async function predictionclick() {
+    navigate("/prediction");
   }
 
   return (
@@ -39,14 +38,21 @@ export const Navbar = ()=>{
         </Typography>
       </Box>
       <Box component="span" sx={{ padding: "0.5rem" }}>
-        <Button onClick = {dashbordclick}  variant="text" sx={{ color: palette.grey[200] }}>
+        <Button
+          onClick={dashbordclick}
+          variant="text"
+          sx={{ color: palette.grey[200] }}
+        >
           Dashboard
         </Button>
-        <Button onClick={predictionclick}  variant="text" sx={{ color: palette.grey[200] }}>
+        <Button
+          onClick={predictionclick}
+          variant="text"
+          sx={{ color: palette.grey[200] }}
+        >
           Predictions
         </Button>
       </Box>
     </Box>
   );
-}
-
+};
