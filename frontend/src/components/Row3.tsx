@@ -77,12 +77,15 @@ interface ExpenseData {
 }
 
 export const Row3 = ({ kpis1 }) => {
+  const [loading1,setloading1] = useState(true);
+  const [loading2,setloading2] = useState(false);
   const pieChartData = useMemo(() => {
     console.log("hi");
     if (kpis1) {
       const totalExpenses = 71000;
 
       return Object.entries(kpis1).map(([key, value]) => {
+        setloading1(false)
         return [
           {
             name: key,
@@ -130,6 +133,7 @@ export const Row3 = ({ kpis1 }) => {
       }));
       setData(Data);
       setData1(Data1);
+      setloading2(false);
     };
 
     fetchData();
@@ -141,6 +145,18 @@ export const Row3 = ({ kpis1 }) => {
   return (
     <>
       <DashboardCard gridArea="g">
+        {loading2?<div className="flex justify-center items-center h-full">
+        <button
+        type="button"
+        className="pointer-events-none inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 disabled:opacity-70 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+        disabled>
+        <div
+          className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-e-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+          role="status"></div>
+        <span>Loading...</span>
+      </button>
+      </div>:
+      <>
         <BoxHeader
           title="List of Products"
           subtitle=""
@@ -174,6 +190,7 @@ export const Row3 = ({ kpis1 }) => {
             columns={productColumns}
           />
         </Box>
+        </>}
       </DashboardCard>
       <DashboardCard gridArea="h">
         <BoxHeader
@@ -211,6 +228,19 @@ export const Row3 = ({ kpis1 }) => {
         </Box>
       </DashboardCard>
       <DashboardCard gridArea="i">
+        {loading1?
+        <div className="flex justify-center items-center h-full">
+        <button
+        type="button"
+        className="pointer-events-none inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 disabled:opacity-70 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+        disabled>
+        <div
+          className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-e-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+          role="status"></div>
+        <span>Loading...</span>
+      </button>
+      </div>:
+      <>
         <BoxHeader title="Expense Breakdown By Category" extra="+4%" />
         <FlexBetween mt="0.5rem" gap="0.5rem" p="0 1rem" textAlign="center">
           {pieChartData?.map((data, i) => (
@@ -233,6 +263,7 @@ export const Row3 = ({ kpis1 }) => {
             </Box>
           ))}
         </FlexBetween>
+        </>}
       </DashboardCard>
       <DashboardCard gridArea="j">
         <BoxHeader

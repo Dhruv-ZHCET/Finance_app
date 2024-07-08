@@ -40,6 +40,8 @@ export const Row2 = () => {
     { name: string; operational: number; nonOperational: number }[]
   >([]);
   const [data2, setData2] = useState<{ Price: number; Expense: number }[]>([]);
+  const [loading1,setloading1] = useState(true);
+  const [loading2,setloading2] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       const response = await getKpi();
@@ -53,6 +55,7 @@ export const Row2 = () => {
           ),
         }));
         setData(Data);
+        setloading1(false);
       }
     };
     fetchData();
@@ -66,6 +69,7 @@ export const Row2 = () => {
           expense: parseFloat(each.Expense.replace("$", "")),
         }));
         setData2(Data);
+        setloading2(false);
         console.log(data2);
       }
     };
@@ -75,6 +79,19 @@ export const Row2 = () => {
   return (
     <>
       <DashboardCard gridArea="d">
+        {loading1?
+        <div className="flex justify-center items-center h-full">
+        <button
+        type="button"
+        className="pointer-events-none inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 disabled:opacity-70 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+        disabled>
+        <div
+          className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-e-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+          role="status"></div>
+        <span>Loading...</span>
+      </button>
+      </div>:
+      <>
         <BoxHeader
           title="Operational v/s Non-operational Expenses"
           extra="+4%"
@@ -124,6 +141,7 @@ export const Row2 = () => {
             />
           </LineChart>
         </ResponsiveContainer>
+        </>}
       </DashboardCard>
       <DashboardCard gridArea="e">
       <BoxHeader title="Campaigns & Targets" extra="+4%"/>
@@ -174,6 +192,19 @@ export const Row2 = () => {
       
       </DashboardCard>
       <DashboardCard gridArea="f">
+        {loading2?
+        <div className="flex justify-center items-center h-full">
+        <button
+        type="button"
+        className="pointer-events-none inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 disabled:opacity-70 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+        disabled>
+        <div
+          className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-e-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+          role="status"></div>
+        <span>Loading...</span>
+      </button>
+      </div>:
+      <>
         <BoxHeader title="Product Prices v/s Expenses" extra="+4%"></BoxHeader>
         <ResponsiveContainer width="100%" height="100%">
           <ScatterChart
@@ -212,6 +243,7 @@ export const Row2 = () => {
             />
           </ScatterChart>
         </ResponsiveContainer>
+        </>}
       </DashboardCard>
     </>
   );
