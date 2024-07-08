@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { env } from "hono/adapter";
 import { cors } from "hono/cors";
+import {signininput,signupinput} from '@haqueinsham/finance-app';
 
 const app = new Hono();
 
@@ -65,6 +66,10 @@ app.post('/signup', async (c)=>{
   }).$extends(withAccelerate());
   const body = await c.req.json();
   try{
+    const {success} = signupinput.safeParse(body);
+    if(!success){
+      return c.status(402);
+    }
     const res  = await prisma.user.create({
       data:{
         email: body.email,
@@ -95,6 +100,10 @@ app.post('/signin',async (c)=>{
 
   const body = await c.req.json();
   try{
+    const {success} = signininput.safeParse(body);
+    if(!success){
+      return c.status(402);
+    }
     const res = await prisma.user.findUnique({
       where:{
         email: body.email,

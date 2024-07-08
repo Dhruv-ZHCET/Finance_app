@@ -75,11 +75,12 @@ export const Auth = ({ str }: Authprops) => {
             onClick={async () => {
               try {
                 const response = await axios.post(
-                  "http://127.0.0.1:8787/signup",
+                  "https://backend.haqueinsham.workers.dev/signup",
                   postInputs
                 );
+
                 if (response.status === 200) {
-                  toast.success("Form submitted successfully!", {
+                  toast.success("Sign-up successful", {
                     position: "top-right",
                     autoClose: 3000, // 3 seconds
                     hideProgressBar: false,
@@ -89,18 +90,28 @@ export const Auth = ({ str }: Authprops) => {
                   });
                   navigate("/dashboard");
                 } else {
-                  toast.error("Error submitting form", {
+                  toast.error("Unexpected response status", {
                     position: "top-right",
                   });
                 }
-              } catch (e) {
-                console.log("error", e);
-                toast.error("Bad credentials", {
-                  position: "top-right",
-                });
+              } catch (error: any) {
+                if (error.response) {
+                  if (error.response.status === 404) {
+                    toast.error("User already exists, try logging in", {
+                      position: "top-right",
+                    });
+                  } else {
+                    toast.error("Bad credentials", {
+                      position: "top-right",
+                    });
+                  }
+                } else {
+                  toast.error("Network error", {
+                    position: "top-right",
+                  });
+                }
               }
-            }}
-          >
+            }}>
             {str === "signup" ? "Sign Up" : "Sign in"}
           </button>
         </div>
