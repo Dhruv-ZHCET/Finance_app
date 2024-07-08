@@ -70,11 +70,12 @@ function App() {
     <div className="app">
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <ToastContainer />;
+
         <BrowserRouter>
           <AppContent kpis={kpis} kpis1={kpis1} />
         </BrowserRouter>
       </ThemeProvider>
+      <ToastContainer />
     </div>
   );
 }
