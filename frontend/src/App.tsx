@@ -84,17 +84,16 @@ const AppContent = ({ kpis, kpis1 }: any) => {
   useEffect(() => {
     if (location.pathname === "/signup") {
       setshownavbar(false);
-<<<<<<< HEAD
     } else if (location.pathname === "/") {
-=======
+      setshownavbar(false);
     }
     else if(location.pathname === "/signin"){
       setshownavbar(false);
     }
     else if(location.pathname==='/'){
->>>>>>> f77a54fd01c3e30ae4ec5e6552cc73fabfc2ae38
       setshownavbar(false);
-    } else {
+    } 
+    else {
       setshownavbar(true);
     }
   }, [location]);

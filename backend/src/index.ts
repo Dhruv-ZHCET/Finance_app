@@ -57,4 +57,67 @@ app.get("/transactions", async (c) => {
   return c.json(res);
 });
 
+app.post('/signup', async (c)=>{
+  const { DATABASE_URL } = env<{ DATABASE_URL: string }>(c);
+
+  const prisma = new PrismaClient({
+    datasourceUrl: DATABASE_URL,
+  }).$extends(withAccelerate());
+  const body = await c.req.json();
+  try{
+    const res  = await prisma.user.create({
+      data:{
+        email: body.email,
+        password: body.password,
+        name: body.name,
+      }
+    })
+    if(res){
+      return c.json({
+        message: 'User created successfully',
+      })
+    }
+  }
+  catch(e){
+    c.status(404);
+    return c.json({
+      message: 'User not created',
+    })
+  }
+})
+
+app.post('/signin',async (c)=>{
+  const { DATABASE_URL } = env<{ DATABASE_URL: string }>(c);
+
+  const prisma = new PrismaClient({
+    datasourceUrl: DATABASE_URL,
+  }).$extends(withAccelerate());
+
+  const body = await c.req.json();
+  try{
+    const res = await prisma.user.findUnique({
+      where:{
+        email: body.email,
+      }
+    })
+    if(res){
+      c.status(200);
+      return c.json({
+        message: 'Welcome back',
+      })
+    }
+    else{
+      c.status(404);
+      return c.json({
+        message: 'User not found',
+      })
+    }
+  }
+  catch(e){
+    c.status(404);
+    return c.json({
+      message: 'Unexpected error ocurred',
+    })
+  }
+})
 export default app;
