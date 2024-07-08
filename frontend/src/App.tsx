@@ -2,6 +2,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useEffect, useMemo, useState } from "react";
 import { themeSettings } from "./theme";
 import { CssBaseline } from "@mui/material";
+import { ToastContainer } from "react-toastify";
 import {
   BrowserRouter,
   Routes,
@@ -69,6 +70,7 @@ function App() {
     <div className="app">
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <ToastContainer />;
         <BrowserRouter>
           <AppContent kpis={kpis} kpis1={kpis1} />
         </BrowserRouter>
@@ -84,16 +86,11 @@ const AppContent = ({ kpis, kpis1 }: any) => {
   useEffect(() => {
     if (location.pathname === "/signup") {
       setshownavbar(false);
+    } else if (location.pathname === "/signin") {
+      setshownavbar(false);
     } else if (location.pathname === "/") {
       setshownavbar(false);
-    }
-    else if(location.pathname === "/signin"){
-      setshownavbar(false);
-    }
-    else if(location.pathname==='/'){
-      setshownavbar(false);
-    } 
-    else {
+    } else {
       setshownavbar(true);
     }
   }, [location]);

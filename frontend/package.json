@@ -22,6 +22,7 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.24.1",
     "react-simple-typewriter": "^5.0.1",
+    "react-toastify": "^10.0.5",
     "recharts": "^2.12.7",
     "regression": "^2.0.1"
   },
@@ -29,6 +30,7 @@
     "@types/node": "^20.14.9",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@types/react-toastify": "^4.1.0",
     "@types/regression": "^2.0.6",
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@typescript-eslint/parser": "^7.13.1",
